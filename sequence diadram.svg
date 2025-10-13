@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net">
+  <diagram id="sequence-page" name="Sequence Diagram">
+    <![CDATA[
+    <mxGraphModel dx="1220" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+
+        <!-- Lifeline headers (actors) -->
+        <mxCell id="u" value="User" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#E6F2FF;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="120" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="em" value="EventManager" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#FFEFD6;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="200" y="20" width="140" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ev" value="Event" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#F0FFE6;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="380" y="20" width="120" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="not" value="Notification" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#FFF0F5;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="540" y="20" width="140" height="40" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="ai" value="AI_Suggester" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#F7F7F7;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="720" y="20" width="140" height="40" as="geometry"/>
+        </mxCell>
+
+        <!-- Lifeline lines -->
+        <mxCell id="line_u" style="line;strokeColor=#000000;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="70" width="1" height="560" as="geometry"/>
+        </mxCell>
+        <mxCell id="line_em" style="line;strokeColor=#000000;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="270" y="70" width="1" height="560" as="geometry"/>
+        </mxCell>
+        <mxCell id="line_ev" style="line;strokeColor=#000000;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="440" y="70" width="1" height="560" as="geometry"/>
+        </mxCell>
+        <mxCell id="line_not" style="line;strokeColor=#000000;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="610" y="70" width="1" height="560" as="geometry"/>
+        </mxCell>
+        <mxCell id="line_ai" style="line;strokeColor=#000000;dashed=1" vertex="1" parent="1">
+          <mxGeometry x="790" y="70" width="1" height="560" as="geometry"/>
+        </mxCell>
+
+        <!-- Messages as edges (arrows) -->
+        <mxCell id="m1" value="view events" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="u" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m2" value="get events" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;dashed=1" edge="1" parent="1" source="em" target="ev">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m3" value="events list" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="ev" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m4" value="register" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="u" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m5" value="check availability" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="em" target="ev">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m6" value="availability" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="ev" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m7" value="reserve spot" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="em" target="ev">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m8" value="confirm" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="ev" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m9" value="create notification" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="em" target="not">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m10" value="ack / send" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;dashed=1" edge="1" parent="1" source="not" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m11" value="notification (confirm/deny)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="em" target="u">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m12" value="request suggestion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="u" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m13" value="suggestions?" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;dashed=1" edge="1" parent="1" source="em" target="ai">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m14" value="suggested events" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1;dashed=1" edge="1" parent="1" source="ai" target="em">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <mxCell id="m15" value="suggestions to user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;endArrow=block;html=1" edge="1" parent="1" source="em" target="u">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+
+        <!-- Concurrency note -->
+        <mxCell id="note1" value="Concurrency hotspot: reserveSpot must be atomic (DB transaction or atomic UPDATE). Handle conflicts, log attempts." style="rounded=1;whiteSpace=wrap;html=1;fontSize=11;fillColor=#FFF7D6" vertex="1" parent="1">
+          <mxGeometry x="40" y="660" width="820" height="70" as="geometry"/>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+    ]]>
+  </diagram>
+</mxfile>
