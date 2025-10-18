@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+.env
+*.log
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Prisma
+prisma/migrations/
+
+# VSCode
+.vscode/
+
+# Snapshots and backups
+.snapshots/
+*.bak
+*.tmp
