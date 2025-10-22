@@ -4,6 +4,7 @@ dotenv.config();
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { authRoutes } from './routes/auth.routes';
+import { eventRoutes } from './routes/event.routes'; // ✅ Add this line
 
 const app = new Elysia()
   .use(swagger({
@@ -26,8 +27,8 @@ const app = new Elysia()
     timestamp: new Date().toISOString()
   }))
   .use(authRoutes)
+  .use(eventRoutes) // ✅ Register event routes here
   .listen(8080);
 
 console.log('Elysia is running PulseHub at http://localhost:' + app.server?.port);
 console.log('Swagger docs available at http://localhost:' + app.server?.port + '/swagger');
-

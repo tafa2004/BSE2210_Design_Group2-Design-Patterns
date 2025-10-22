@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")  // Neon connection string
+  provider = "postgresql"        // ← KEEP THIS
+  url      = env("DATABASE_URL") // ← KEEP YOUR NEON CONNECTION
 }
 
 enum UserRole {
@@ -22,9 +22,11 @@ enum RSVPStatus {
 model User {
   id        String    @id @default(uuid())
   email     String    @unique
-  password  String    // Hashed
+  password  String
+  name      String    // ← ADD THIS FIELD
   role      UserRole  @default(ATTENDEE)
   createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
 
   organizedEvents Event[] @relation("EventOrganizer")
   rsvps           RSVP[]
@@ -39,8 +41,9 @@ model Event {
   organizerId String
   approved    Boolean   @default(false)
   createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt()
 
-  organizer   User      @relation("EventOrganizer", fields: [organizerId], references: [id])
+  organizer   User  @relation("EventOrganizer", fields: [organizerId], references: [id])
   rsvps       RSVP[]
 }
 
@@ -51,8 +54,8 @@ model RSVP {
   status    RSVPStatus
   createdAt DateTime    @default(now())
 
-  user      User        @relation(fields: [userId], references: [id])
-  event     Event       @relation(fields: [eventId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+  event     Event   @relation(fields: [eventId], references: [id])
 
-  @@unique([userId, eventId])  // Prevent duplicate RSVPs
+  @@unique([userId, eventId])
 }
