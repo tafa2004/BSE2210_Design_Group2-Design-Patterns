@@ -1,4 +1,4 @@
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
 import { verifyJWT } from '../middleware/verifyJWT';
 import { PrismaClient } from '@prisma/client';
 
@@ -7,33 +7,25 @@ const prisma = new PrismaClient();
 export const eventRoutes = new Elysia({ prefix: '/events' })
   .use(verifyJWT)
 
-  // 🔹 Get all approved events
   .get('/', async () => {
     const events = await prisma.event.findMany({
       where: { approved: true },
       include: { organizer: true }
     });
-    return events;
-  }, {
-    detail: {
-      tags: ['Events'],
-      summary: 'Get all approved events',
-      description: 'Returns a list of all approved events with organizer info'
-    }
+    return { success: true, data: events };
   })
 
-  // 🔹 Create a new event
   .post('/', async ({ body, user, set }) => {
     const { title, description, date, location } = body;
+
+    if (!user || (user.role !== 'ORGANIZER' && user.role !== 'ADMIN')) {
+      set.status = 403;
+      return { error: 'Only organizers or admins can create events' };
+    }
 
     if (!title || !description || !date || !location) {
       set.status = 400;
       return { error: 'Missing required fields' };
-    }
-
-    if (user.role !== 'ORGANIZER' && user.role !== 'ADMIN') {
-      set.status = 403;
-      return { error: 'Only organizers or admins can create events' };
     }
 
     const event = await prisma.event.create({
@@ -46,22 +38,16 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
       }
     });
 
-    return event;
+    return { success: true, data: event };
   }, {
-    body: {
-      title: 'string',
-      description: 'string',
-      date: 'string',
-      location: 'string'
-    },
-    detail: {
-      tags: ['Events'],
-      summary: 'Create a new event',
-      description: 'Organizers or admins can create events'
-    }
+    body: t.Object({
+      title: t.String(),
+      description: t.String(),
+      date: t.String(),
+      location: t.String()
+    })
   })
 
-  // 🔹 Update an event
   .put('/:id', async ({ params, body, user, set }) => {
     const { id } = params;
     const { title, description, date, location } = body;
@@ -82,22 +68,19 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
       }
     });
 
-    return updated;
+    return { success: true, data: updated };
   }, {
-    body: {
-      title: 'string',
-      description: 'string',
-      date: 'string',
-      location: 'string'
-    },
-    detail: {
-      tags: ['Events'],
-      summary: 'Update an event',
-      description: 'Only the organizer can update their own event'
-    }
+    params: t.Object({
+      id: t.String()
+    }),
+    body: t.Object({
+      title: t.String(),
+      description: t.String(),
+      date: t.String(),
+      location: t.String()
+    })
   })
 
-  // 🔹 Delete an event
   .delete('/:id', async ({ params, user, set }) => {
     const { id } = params;
 
@@ -108,16 +91,13 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
     }
 
     await prisma.event.delete({ where: { id } });
-    return { message: 'Event deleted' };
+    return { success: true, message: 'Event deleted' };
   }, {
-    detail: {
-      tags: ['Events'],
-      summary: 'Delete an event',
-      description: 'Only the organizer can delete their own event'
-    }
+    params: t.Object({
+      id: t.String()
+    })
   })
 
-  // 🔹 Approve an event
   .put('/approve/:id', async ({ params, user, set }) => {
     const { id } = params;
 
@@ -131,11 +111,9 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
       data: { approved: true }
     });
 
-    return approved;
+    return { success: true, data: approved };
   }, {
-    detail: {
-      tags: ['Events'],
-      summary: 'Approve an event',
-      description: 'Only admins can approve events'
-    }
+    params: t.Object({
+      id: t.String()
+    })
   });

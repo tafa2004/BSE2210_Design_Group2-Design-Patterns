@@ -4,7 +4,8 @@ dotenv.config();
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { authRoutes } from './routes/auth.routes';
-import { eventRoutes } from './routes/event.routes'; // ✅ Add this line
+import { eventRoutes } from './routes/event.routes';
+import { rsvpRoutes } from './routes/rsvp.routes';
 
 const app = new Elysia()
   .use(swagger({
@@ -26,9 +27,27 @@ const app = new Elysia()
     status: 'healthy',
     timestamp: new Date().toISOString()
   }))
+  .ws('/ws', {
+    open(ws) {
+      console.log('WebSocket client connected');
+      ws.send(JSON.stringify({ type: 'connected', message: 'Welcome to PulseHub realtime updates' }));
+    },
+    message(ws, message) {
+      console.log('Received message:', message);
+    },
+    close(ws) {
+      console.log('WebSocket client disconnected');
+    }
+  })
   .use(authRoutes)
-  .use(eventRoutes) // ✅ Register event routes here
+  .use(eventRoutes)
+  .use(rsvpRoutes)
   .listen(8080);
 
-console.log('Elysia is running PulseHub at http://localhost:' + app.server?.port);
-console.log('Swagger docs available at http://localhost:' + app.server?.port + '/swagger');
+console.log('✅ Elysia is running PulseHub at http://localhost:' + app.server?.port);
+console.log('📘 Swagger docs available at http://localhost:' + app.server?.port + '/swagger');
+console.log('🔴 WebSocket available at ws://localhost:' + app.server?.port + '/ws');
+
+// Export app for broadcasting
+export { app };
+

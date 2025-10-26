@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"        // ← KEEP THIS
-  url      = env("DATABASE_URL") // ← KEEP YOUR NEON CONNECTION
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 enum UserRole {
@@ -23,7 +23,7 @@ model User {
   id        String    @id @default(uuid())
   email     String    @unique
   password  String
-  name      String    // ← ADD THIS FIELD
+  name      String
   role      UserRole  @default(ATTENDEE)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt()
@@ -40,6 +40,7 @@ model Event {
   location    String
   organizerId String
   approved    Boolean   @default(false)
+  status      String    @default("PENDING") // ✅ Added for filtering and approval
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt()
 

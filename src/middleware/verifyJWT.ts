@@ -1,31 +1,27 @@
-import { Elysia } from 'elysia';
+import { Elysia, t } from 'elysia';
 import jwt from 'jsonwebtoken';
 
 export const verifyJWT = new Elysia()
-  .derive(async ({ headers, set }) => {
-    const authHeader = headers['authorization'];
-
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      set.status = 401;
-      throw new Error('Missing or invalid Authorization header');
-    }
-
-    const token = authHeader.split(' ')[1];
-
+  .derive({ as: 'global' }, async ({ headers, set }): Promise<{ user: { id: string; role: string } }> => {
     try {
-      const payload = jwt.verify(token, process.env.JWT_SECRET!) as {
-        userId: string;
-        role: string;
-      };
+      const authHeader = headers.authorization || headers.Authorization;
+      
+      if (!authHeader?.startsWith('Bearer ')) {
+        set.status = 401;
+        throw new Error('No token provided');
+      }
 
+      const token = authHeader.split(' ')[1];
+      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+      
       return {
         user: {
-          id: payload.userId,
-          role: payload.role
+          id: decoded.userId,
+          role: decoded.role
         }
       };
-    } catch (err) {
+    } catch (error) {
       set.status = 401;
-      throw new Error('Invalid or expired token');
+      throw new Error('Invalid token');
     }
   });
