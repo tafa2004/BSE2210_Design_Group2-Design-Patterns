@@ -1,6 +1,7 @@
 import { Elysia, t } from 'elysia';
 import { verifyJWT } from '../middleware/verifyJWT';
 import { PrismaClient } from '@prisma/client';
+import { broadcast } from '../index';
 
 const prisma = new PrismaClient();
 
@@ -38,6 +39,7 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
       }
     });
 
+    broadcast('event_created', event);
     return { success: true, data: event };
   }, {
     body: t.Object({
@@ -68,6 +70,7 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
       }
     });
 
+    broadcast('event_updated', updated);
     return { success: true, data: updated };
   }, {
     params: t.Object({
@@ -91,6 +94,7 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
     }
 
     await prisma.event.delete({ where: { id } });
+    broadcast('event_deleted', { id });
     return { success: true, message: 'Event deleted' };
   }, {
     params: t.Object({
@@ -111,6 +115,7 @@ export const eventRoutes = new Elysia({ prefix: '/events' })
       data: { approved: true }
     });
 
+    broadcast('event_approved', approved);
     return { success: true, data: approved };
   }, {
     params: t.Object({

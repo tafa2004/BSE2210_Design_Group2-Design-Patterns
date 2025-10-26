@@ -7,6 +7,8 @@ import { authRoutes } from './routes/auth.routes';
 import { eventRoutes } from './routes/event.routes';
 import { rsvpRoutes } from './routes/rsvp.routes';
 
+const wsClients = new Set<any>();
+
 const app = new Elysia()
   .use(swagger({
     path: '/swagger',
@@ -29,14 +31,20 @@ const app = new Elysia()
   }))
   .ws('/ws', {
     open(ws) {
-      console.log('WebSocket client connected');
-      ws.send(JSON.stringify({ type: 'connected', message: 'Welcome to PulseHub realtime updates' }));
+      wsClients.add(ws);
+      console.log('WebSocket client connected. Total clients:', wsClients.size);
+      ws.send(JSON.stringify({ 
+        type: 'connected', 
+        message: 'Welcome to PulseHub realtime updates',
+        timestamp: new Date().toISOString()
+      }));
     },
     message(ws, message) {
       console.log('Received message:', message);
     },
     close(ws) {
-      console.log('WebSocket client disconnected');
+      wsClients.delete(ws);
+      console.log('WebSocket client disconnected. Total clients:', wsClients.size);
     }
   })
   .use(authRoutes)
@@ -48,6 +56,22 @@ console.log('✅ Elysia is running PulseHub at http://localhost:' + app.server?.
 console.log('📘 Swagger docs available at http://localhost:' + app.server?.port + '/swagger');
 console.log('🔴 WebSocket available at ws://localhost:' + app.server?.port + '/ws');
 
-// Export app for broadcasting
-export { app };
+export const broadcast = (type: string, data: any) => {
+  const message = JSON.stringify({ 
+    type, 
+    data, 
+    timestamp: new Date().toISOString() 
+  });
+  
+  wsClients.forEach((client) => {
+    try {
+      client.send(message);
+    } catch (error) {
+      console.error('Error broadcasting:', error);
+    }
+  });
+  
+  console.log(`Broadcasted`, type, 'to', wsClients.size, 'clients');
+};
 
+export { app };

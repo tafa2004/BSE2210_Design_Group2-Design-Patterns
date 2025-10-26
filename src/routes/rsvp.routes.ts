@@ -1,6 +1,7 @@
 import { Elysia, t } from 'elysia';
 import { verifyJWT } from '../middleware/verifyJWT';
 import { PrismaClient } from '@prisma/client';
+import { broadcast } from '../index';
 
 const prisma = new PrismaClient();
 
@@ -51,6 +52,7 @@ export const rsvpRoutes = new Elysia({ prefix: '/rsvps' })
         }
       });
 
+      broadcast('rsvp_created', rsvp);
       return { success: true, data: rsvp };
     } catch (error) {
       set.status = 500;
@@ -122,6 +124,7 @@ export const rsvpRoutes = new Elysia({ prefix: '/rsvps' })
         }
       });
 
+      broadcast('rsvp_deleted', { eventId, userId: user.id });
       return { success: true, message: 'RSVP removed successfully' };
     } catch (error) {
       set.status = 500;
