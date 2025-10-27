@@ -7,9 +7,9 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "dev": "bun run src/index.ts",
-    "build": "npx prisma generate",
-    "prisma generate": "prisma generate",
-    "prisma push": "prisma db push"
+    "build": "npx prisma generate --schema=src/prisma/schema.prisma",
+    "db:push": "npx prisma db push --schema=src/prisma/schema.prisma",
+    "deploy": "npm run build && npm run db:push"
   },
   "author": "Tafadzwa",
   "license": "MIT",
