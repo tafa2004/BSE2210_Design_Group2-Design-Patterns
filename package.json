@@ -6,7 +6,10 @@
   "main": "index.ts",
   "scripts": {
     "start": "bun run src/index.ts",
-    "dev": "bun run src/index.ts"
+    "dev": "bun run src/index.ts",
+    "build": "npx prisma generate",
+    "prisma generate": "prisma generate",
+    "prisma push": "prisma db push"
   },
   "author": "Tafadzwa",
   "license": "MIT",
