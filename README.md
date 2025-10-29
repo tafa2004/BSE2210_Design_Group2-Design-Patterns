@@ -5,7 +5,7 @@ Kamenga Katendi 2410432
 Alintula Silwimba 2410030
 Tafadzwa Mungandaire 2420974 
 
-Team Lead : Backend development - Basicaaly did the project on my own
+Team Lead : Backend development - Basically did the project on my own with little or no help from my other members
 Deployed backend  PulseHub app on Render URL-https://bse2210-design-group2-design-patterns.onrender.com
 API documentation URL https://bse2210-design-group2-design-patterns.on render.com/swagger
 GitHub repository project branch - pulsehub branch https://github.com/tafa2004/BSE2210_Design_Group2-Design-Patterns/pulsehub.git
