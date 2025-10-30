@@ -1,9 +1,8 @@
 import { Elysia, t } from 'elysia';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../lib/prisma';
 import jwt from 'jsonwebtoken';
 import { sendWelcomeEmail } from '../services/email.service';
 
-const prisma = new PrismaClient();
 
 const hashPassword = (password: string) => {
   return Buffer.from(password).toString('base64');
