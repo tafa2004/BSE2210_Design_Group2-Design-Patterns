@@ -9,6 +9,7 @@ Team Lead : Backend development - Basically did the project on my own with littl
 Deployed backend  PulseHub app on Render URL-https://bse2210-design-group2-design-patterns.onrender.com
 API documentation URL https://bse2210-design-group2-design-patterns.on render.com/swagger
 GitHub repository project branch - pulsehub branch https://github.com/tafa2004/BSE2210_Design_Group2-Design-Patterns/pulsehub.git
+https://www.loom.com/share/7f0325a52a7c492598b66718644f3843- the link to the Loom video demonstrating the user flow
 
 🔐 JWT Authentication: Secure login and role-based access control for ADMIN, ORGANIZER, and USER
 🧩 Modular Routing: Separate route files for auth, events, and RSVPs using Elysia.js
