@@ -5,7 +5,7 @@ A simple monolithic event management system built for a Software Design assignme
  Project Overview
 
 This project is a monolithic event management application built as part of a Software Design assignment. It allows users to register, log in, and interact with events based on their assigned roles. Admins can create, update, and manage events, while attendees can browse and register for them. The app also includes real-time features for live updates, ensuring a responsive and interactive experience. It demonstrates key software design principles such as modular architecture, role-based access control, and real-time communication.
-
+https://www.loom.com/share/7f0325a52a7c492598b66718644f3843 - The link to the Loom demo video
  Tech Stack/tools used
 
 - Node.js + Bun
